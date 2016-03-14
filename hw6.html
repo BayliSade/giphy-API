@@ -1,126 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Actions Gifs</title>
-    <style type="text/css">
-        .btn {
-        margin: 3px;
-        }
-        img { 
-        height: 150px;
-        width: 150px;
-        }
-        .gifDiv{
-        float: left;
-        margin: 3px;
-        }
-    </style>
-    <!-- Latest compiled and minified CSS & JS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-</head>
-<body>
-<div class="jumbotron">
-    <div class="container">
-        <h1>Actions Search</h1>
-    </div>
-</div>
-<div id="gifButtonsView" class="container"></div>
-<div class="container">
-    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-        <div id="gifsView"></div>
-    </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <form id="gif-form" role="form">
-            <h2><legend>Action Submission</legend></h2>
-            <div class="form-group">
-                <label for="action-input">Add your action below</label>
-                <input type="text" id="action-input">
+    <head>
+        <title>Actions Gifs</title>
+        <!-- Latest compiled and minified CSS & JS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    </head>
+    <body>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Actions Search</h1>
             </div>
-            <input id="addGif" type="submit" value="Add your action" class="btn btn-primary">
-        </form>    
-    </div>
-</div>
-<footer id="footer" class="jumbotron">
-    <div class="container">
-    </div>
-</footer>
-<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<script type="text/javascript">
-    // An array of actions, new actions will be pushed into this array;
-    var actions = ["Dancing", "Jogging", "Falling", "Reading", "Pushing", "Swimming", "Eating", "Skipping", "Crying", "Winking","Beyoncing"];
-    // Creating Functions & Methods
-    // Function that displays all gif buttons
-    function displayGifButtons(){ 
-        $("#gifButtonsView").empty(); // erasing anything in this div id so that it doesnt duplicate the results
-        for (var i = 0; i < actions.length; i++){
-            var gifButton = $("<button>");
-            gifButton.addClass("action");
-            gifButton.addClass("btn btn-primary")
-            gifButton.attr("data-name", actions[i]);
-            gifButton.text(actions[i]);
-            $("#gifButtonsView").append(gifButton);
-        }
-    }
-    // Function to add a new action button
-    function addNewButton(){
-        $("#addGif").on("click", function(){
-            var action = $("#action-input").val().trim();
-            actions.push(action);
-            
-            displayGifButtons();
-            return false;
-        });
-    }
-    // Function that displays all of the gifs
-    function displayGifs(){
-        var action = $(this).attr("data-name");
-        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + action + "&api_key=dc6zaTOxFJmzC&limit=10";
-        console.log(queryURL); // displays the constructed url
-        $.ajax({
-                url: queryURL,
-                method: 'GET'
-            })
-            .done(function(response) {
-                console.log(response); // console test to make sure something returns
-                $("#gifsView").empty(); // erasing anything in this div id so that it doesnt keep any from the previous click
-                var results = response.data; //shows results of gifs
-                for (var i=0; i<results.length; i++){
-                    var gifDiv = $("<div>"); //div for the gifs to go inside
-                    gifDiv.addClass("gifDiv");
-                    // pulling rating of gif
-                    var gifRating = $("<p>").text("Rating: " + results[i].rating);
-                    gifDiv.append(gifRating);
-                    // pulling gif
-                    var gifImage = $("<img>");
-                    gifImage.attr("src", results[i].images.fixed_height_small_still.url); // still image stored into src of image
-                    gifImage.attr("data-still",results[i].images.fixed_height_small_still.url); // still image
-                    gifImage.attr("data-animate",results[i].images.fixed_height_small.url); // animated image
-                    gifImage.attr("data-state", "still"); // set the image state
-                    gifImage.addClass("image");
-                    gifDiv.append(gifImage);
-                    // pulling still image of gif
-                    // adding div of gifs to gifsView div
-                    $("#gifsView").prepend(gifDiv);
-                }
-            });
-    }
-    // Calling Functions & Methods
-    displayGifButtons(); // displays list of actions already created
-    addNewButton();
-    $( document ).ready(function() {
-        $(".action").on("click", displayGifs);
-        $(".image").on("click", function(){
-            var state = $(this).attr("data-state"); 
-            if ( state == "still"){
-                $(this).attr("src", $(this).data("animate"));
-                $(this).attr("data-state", "animate");
-            }else{
-                $(this).attr("src", $(this).data("still"));
-                $(this).attr("data-state", "still");
-            }
-        });
-    });
-</script>
-</body>
+        </div>
+        <div id="gifButtonsView" class="container">
+        </div>
+        <div class="container">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                <div id="gifsView"></div>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <form id="gif-form" role="form">
+                    <h2><legend>Action Submission</legend></h2>
+                    <div class="form-group">
+                        <label for="action-input">Add your action below</label>
+                        <input type="text" id="action-input">
+                    </div>
+                    <input id="addGif" type="submit" value="Add your action" class="btn btn-primary">
+                </form>    
+            </div>
+        </div>
+<!--         <footer id="footer" class="jumbotron">
+            <div class="container">
+            </div>
+        </footer> -->
+        <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="assets/javascript/javascript.js"></script>
+    </body>
 </html>
