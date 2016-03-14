@@ -24,6 +24,16 @@ function addNewButton(){
     return false;
     });
 }
+// Function to remove last action button
+    // Doesnt work properly yet removes all of the added buttons
+    // rather than just the last
+function removeLastButton(){
+    $("removeGif").on("click", function(){
+    actions.pop(action); 
+    displayGifButtons();
+    return false;
+    });
+}
 // Function that displays all of the gifs
 function displayGifs(){
     var action = $(this).attr("data-name");
@@ -61,6 +71,7 @@ function displayGifs(){
 // Calling Functions & Methods
 displayGifButtons(); // displays list of actions already created
 addNewButton();
+removeLastButton();
 // Document Event Listeners
 $(document).on("click", ".action", displayGifs);
 $(document).on("click", ".image", function(){
