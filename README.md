@@ -10,7 +10,7 @@
 * Yu can add a new action from the form on the right side of the page. The actions will be added to the array of actions and added as a new button
 * The rating of each gif will also appear on the page.
 
-Heroku: https://polar-ocean-58067.herokuapp.com/
+Heroku: http://polar-ocean-58067.herokuapp.com/
 
 # Copyright
 Jahdasha Flagg (C) 2016. All Rights Reserved.
