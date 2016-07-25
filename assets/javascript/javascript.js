@@ -3,7 +3,7 @@ $( document ).ready(function() {
 var actions = ["Dancing", "Jogging", "Falling", "Reading", "Pushing", "Swimming", "Eating", "Skipping", "Crying", "Winking","Beyoncing", "Strolling", "Hopping"];
 // Creating Functions & Methods
 // Function that displays all gif buttons
-function displayGifButtons(){ 
+function displayGifButtons(){
     $("#gifButtonsView").empty(); // erasing anything in this div id so that it doesnt duplicate the results
     for (var i = 0; i < actions.length; i++){
         var gifButton = $("<button>");
@@ -18,6 +18,9 @@ function displayGifButtons(){
 function addNewButton(){
     $("#addGif").on("click", function(){
     var action = $("#action-input").val().trim();
+    if (action == ""){
+      return false; // added so user cannot add a blank button
+    }
     actions.push(action);
 
     displayGifButtons();
@@ -29,7 +32,7 @@ function addNewButton(){
     // rather than just the last
 function removeLastButton(){
     $("removeGif").on("click", function(){
-    actions.pop(action); 
+    actions.pop(action);
     displayGifButtons();
     return false;
     });
@@ -47,8 +50,11 @@ function displayGifs(){
         console.log(response); // console test to make sure something returns
         $("#gifsView").empty(); // erasing anything in this div id so that it doesnt keep any from the previous click
         var results = response.data; //shows results of gifs
+        if (results == ""){
+          alert("There isn't a gif for this selected button");
+        }
         for (var i=0; i<results.length; i++){
-    
+
             var gifDiv = $("<div>"); //div for the gifs to go inside
             gifDiv.addClass("gifDiv");
             // pulling rating of gif
@@ -75,7 +81,7 @@ removeLastButton();
 // Document Event Listeners
 $(document).on("click", ".action", displayGifs);
 $(document).on("click", ".image", function(){
-    var state = $(this).attr('data-state'); 
+    var state = $(this).attr('data-state');
     if ( state == 'still'){
         $(this).attr('src', $(this).data('animate'));
         $(this).attr('data-state', 'animate');
